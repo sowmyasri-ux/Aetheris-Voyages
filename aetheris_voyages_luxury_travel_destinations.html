@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aetheris Voyages | Explore the World, Create Memories</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ocean: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#0ea5e9',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0a2540', // Deep Navy Ocean
+                            950: '#061729',
+                        },
+                        sand: {
+                            50: '#fdfcfb',
+                            100: '#f8f5f0', // Warm Sandy Beige
+                            200: '#efe8dc',
+                            300: '#e2d5c1',
+                            500: '#c5a880',
+                            700: '#8c6d46',
+                        },
+                        coral: {
+                            500: '#e07a5f', // Warm Sunset Accent
+                            600: '#c96247',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom subtle animations and utilities */
+        .hero-overlay {
+            background: linear-gradient(180deg, rgba(6, 23, 41, 0.65) 0%, rgba(10, 37, 64, 0.45) 50%, rgba(6, 23, 41, 0.85) 100%);
+        }
+        
+        .card-zoom img {
+            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .card-zoom:hover img {
+            transform: scale(1.08);
+        }
+
+        /* Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: all 0.7s ease-out;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f8f5f0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0a2540;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0369a1;
+        }
+    </style>
+</head>
+<body class="bg-sand-50 text-ocean-900 font-sans antialiased selection:bg-ocean-700 selection:text-white overflow-x-hidden">
+
+    <!-- ==================== NAVIGATION BAR ==================== -->
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4 px-4 sm:px-8">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#home" class="flex items-center gap-2.5 group">
+                <div class="w-10 h-10 rounded-xl bg-white/15 backdrop-blur-md border border-white/25 flex items-center justify-center text-white group-hover:bg-coral-500 group-hover:border-coral-500 transition-colors" id="logo-icon-box">
+                    <i data-lucide="compass" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <span class="font-serif text-xl sm:text-2xl font-bold tracking-tight text-white transition-colors" id="logo-text">Aetheris</span>
+                    <span class="block text-[10px] uppercase tracking-[0.25em] text-sand-200 font-medium -mt-1" id="logo-sub">Voyages</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden lg:flex items-center gap-8">
+                <a href="#home" class="nav-link text-sm font-medium text-white/90 hover:text-white transition-colors">Home</a>
+                <a href="#destinations" class="nav-link text-sm font-medium text-white/90 hover:text-white transition-colors">Destinations</a>
+                <a href="#packages" class="nav-link text-sm font-medium text-white/90 hover:text-white transition-colors">Packages</a>
+                <a href="#activities" class="nav-link text-sm font-medium text-white/90 hover:text-white transition-colors">Experiences</a>
+                <a href="#why-us" class="nav-link text-sm font-medium text-white/90 hover:text-white transition-colors">Why Us</a>
+                <a href="#contact" class="nav-link text-sm font-medium text-white/90 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- CTA & Mobile Toggle -->
+            <div class="flex items-center gap-3">
+                <a href="#booking" class="hidden sm:inline-flex items-center gap-2 bg-coral-500 hover:bg-coral-600 text-white text-sm font-semibold px-5 py-2.5 rounded-full shadow-lg shadow-coral-500/25 transition-all hover:-translate-y-0.5">
+                    <span>Plan Your Trip</span>
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                </a>
+                <button id="mobile-menu-btn" aria-label="Open Navigation Menu" class="lg:hidden p-2.5 rounded-xl bg-white/15 backdrop-blur-md text-white border border-white/20 hover:bg-white/25 transition-colors">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Navigation -->
+        <div id="mobile-menu" class="hidden lg:hidden mt-3 mx-auto max-w-7xl bg-white rounded-2xl shadow-2xl border border-sand-200 p-6 text-ocean-900">
+            <div class="flex flex-col space-y-4">
+                <a href="#home" class="mobile-link font-medium py-2 border-b border-sand-100 hover:text-ocean-700">Home</a>
+                <a href="#destinations" class="mobile-link font-medium py-2 border-b border-sand-100 hover:text-ocean-700">Popular Destinations</a>
+                <a href="#packages" class="mobile-link font-medium py-2 border-b border-sand-100 hover:text-ocean-700">Travel Packages</a>
+                <a href="#activities" class="mobile-link font-medium py-2 border-b border-sand-100 hover:text-ocean-700">Activities & Experiences</a>
+                <a href="#why-us" class="mobile-link font-medium py-2 border-b border-sand-100 hover:text-ocean-700">Why Choose Us</a>
+                <a href="#contact" class="mobile-link font-medium py-2 hover:text-ocean-700">Contact Us</a>
+                <a href="#booking" class="mobile-link w-full text-center bg-ocean-900 text-white font-semibold py-3 rounded-xl shadow-md mt-2">
+                    Book Your Adventure
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== 1. HERO SECTION ==================== -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center pt-24 pb-16 px-4 sm:px-8 overflow-hidden">
+        <!-- Background Image with Fallback -->
+        <img 
+            src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=85" 
+            onerror="this.src='https://placehold.co/1920x1080/0a2540/f8f5f0?text=Tropical+Ocean+Paradise'"
+            alt="Turquoise ocean waves meeting white sandy shore" 
+            class="absolute inset-0 w-full h-full object-cover object-center scale-105"
+        >
+        <div class="hero-overlay absolute inset-0"></div>
+
+        <!-- Hero Content -->
+        <div class="relative z-10 max-w-5xl mx-auto text-center text-white">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-sand-100 text-xs sm:text-sm font-medium mb-6">
+                <span class="w-2 h-2 rounded-full bg-coral-500 animate-pulse"></span>
+                <span>Curated Global Expeditions & Coastal Retreats</span>
+            </div>
+
+            <h1 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold leading-[1.12] tracking-tight mb-6">
+                Explore the World, <br class="hidden sm:block">
+                <span class="italic font-normal text-sand-200">Create Memories</span>
+            </h1>
+
+            <p class="max-w-2xl mx-auto text-base sm:text-lg lg:text-xl text-sand-100/90 font-light leading-relaxed mb-10">
+                Discover hidden archipelagos, ancient mountain sanctuaries, and sun-drenched coastlines. We craft seamless, soul-stirring journeys tailored to your rhythm of discovery.
+            </p>
+
+            <!-- Hero Action Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#destinations" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-coral-500 hover:bg-coral-600 text-white font-semibold px-8 py-4 rounded-full shadow-xl shadow-coral-500/30 transition-all hover:-translate-y-0.5 text-base">
+                    <span>Explore Now</span>
+                    <i data-lucide="compass" class="w-5 h-5"></i>
+                </a>
+                <a href="#packages" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-white/15 hover:bg-white/25 backdrop-blur-md border border-white/30 text-white font-semibold px-8 py-4 rounded-full transition-all text-base">
+                    <span>View Travel Packages</span>
+                    <i data-lucide="sparkles" class="w-4 h-4"></i>
+                </a>
+            </div>
+
+            <!-- Quick Trust Metrics Bar -->
+            <div class="mt-16 pt-8 border-t border-white/15 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto text-center">
+                <div>
+                    <p class="font-serif text-2xl sm:text-3xl font-bold text-white">45+</p>
+                    <p class="text-xs uppercase tracking-wider text-sand-200 mt-1">Exotic Destinations</p>
+                </div>
+                <div>
+                    <p class="font-serif text-2xl sm:text-3xl font-bold text-white">18k+</p>
+                    <p class="text-xs uppercase tracking-wider text-sand-200 mt-1">Happy Travelers</p>
+                </div>
+                <div>
+                    <p class="font-serif text-2xl sm:text-3xl font-bold text-white">4.9/5</p>
+                    <p class="text-xs uppercase tracking-wider text-sand-200 mt-1">Verified Rating</p>
+                </div>
+                <div>
+                    <p class="font-serif text-2xl sm:text-3xl font-bold text-white">24/7</p>
+                    <p class="text-xs uppercase tracking-wider text-sand-200 mt-1">Concierge Support</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 2. POPULAR DESTINATIONS ==================== -->
+    <section id="destinations" class="py-20 sm:py-28 px-4 sm:px-8 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 reveal">
+            <div>
+                <span class="text-xs font-bold uppercase tracking-[0.2em] text-ocean-700">Curated Horizons</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-ocean-900 mt-2">Popular Destinations</h2>
+            </div>
+            <!-- Region Filter Pills -->
+            <div class="flex flex-wrap gap-2" id="destination-filters">
+                <button data-filter="all" class="filter-btn active px-4 py-2 rounded-full text-sm font-semibold bg-ocean-900 text-white transition-all">All Places</button>
+                <button data-filter="coastal" class="filter-btn px-4 py-2 rounded-full text-sm font-semibold bg-sand-100 text-ocean-800 hover:bg-sand-200 transition-all">Coastal & Islands</button>
+                <button data-filter="mountains" class="filter-btn px-4 py-2 rounded-full text-sm font-semibold bg-sand-100 text-ocean-800 hover:bg-sand-200 transition-all">Mountains</button>
+                <button data-filter="heritage" class="filter-btn px-4 py-2 rounded-full text-sm font-semibold bg-sand-100 text-ocean-800 hover:bg-sand-200 transition-all">Cultural Heritage</button>
+            </div>
+        </div>
+
+        <!-- Destinations Grid (6 Cards) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="destinations-grid">
+            
+            <!-- Destination 1: Santorini -->
+            <article data-category="coastal" class="destination-card card-zoom reveal group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl border border-sand-200/80 transition-all duration-300 flex flex-col">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=900&q=80" 
+                         onerror="this.src='https://placehold.co/800x600/0369a1/ffffff?text=Santorini+Greece'"
+                         alt="White cliffside villas overlooking the Aegean Sea in Santorini" 
+                         class="w-full h-full object-cover">
+                    <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold text-ocean-900 flex items-center gap-1">
+                        <i data-lucide="map-pin" class="w-3.5 h-3.5 text-coral-500"></i>
+                        <span>Cyclades, Greece</span>
+                    </div>
+                    <div class="absolute top-4 right-4 bg-ocean-900/85 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-bold">
+                        From $1,290
+                    </div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-serif text-2xl font-bold text-ocean-900">Santorini Caldera</h3>
+                            <span class="flex items-center gap-1 text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded-lg">
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-500 text-amber-500"></i> 4.9
+                            </span>
+                        </div>
+                        <p class="text-ocean-800/75 text-sm leading-relaxed mb-5">
+                            Iconic whitewashed cliffside villages, volcanic black-sand coves, and world-renowned sunset sails across the sapphire Aegean Sea.
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-sand-100 flex items-center justify-between">
+                        <span class="text-xs font-medium text-ocean-700">Best: May – Oct</span>
+                        <button onclick="selectDestinationForBooking('Santorini, Greece')" class="inline-flex items-center gap-1.5 text-sm font-bold text-ocean-900 hover:text-coral-500 transition-colors">
+                            <span>Book Destination</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Destination 2: Bali -->
+            <article data-category="coastal" class="destination-card card-zoom reveal group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl border border-sand-200/80 transition-all duration-300 flex flex-col">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=900&q=80" 
+                         onerror="this.src='https://placehold.co/800x600/0369a1/ffffff?text=Bali+Indonesia'"
+                         alt="Lush green rice terraces and coastal cliffs in Bali" 
+                         class="w-full h-full object-cover">
+                    <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold text-ocean-900 flex items-center gap-1">
+                        <i data-lucide="map-pin" class="w-3.5 h-3.5 text-coral-500"></i>
+                        <span>Ubud & Uluwatu, Indonesia</span>
+                    </div>
+                    <div class="absolute top-4 right-4 bg-ocean-900/85 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-bold">
+                        From $980
+                    </div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-serif text-2xl font-bold text-ocean-900">Bali Sanctuary</h3>
+                            <span class="flex items-center gap-1 text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded-lg">
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-500 text-amber-500"></i> 4.9
+                            </span>
+                        </div>
+                        <p class="text-ocean-800/75 text-sm leading-relaxed mb-5">
+                            Emerald terraced jungles, sacred cliffside sea temples, tranquil wellness retreats, and turquoise coral reefs teeming with marine life.
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-sand-100 flex items-center justify-between">
+                        <span class="text-xs font-medium text-ocean-700">Best: Apr – Oct</span>
+                        <button onclick="selectDestinationForBooking('Bali, Indonesia')" class="inline-flex items-center gap-1.5 text-sm font-bold text-ocean-900 hover:text-coral-500 transition-colors">
+                            <span>Book Destination</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Destination 3: Swiss Alps -->
+            <article data-category="mountains" class="destination-card card-zoom reveal group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl border border-sand-200/80 transition-all duration-300 flex flex-col">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=900&q=80" 
+                         onerror="this.src='https://placehold.co/800x600/0369a1/ffffff?text=Swiss+Alps'"
+                         alt="Alpine lake surrounded by snow-dusted peaks in Switzerland" 
+                         class="w-full h-full object-cover">
+                    <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold text-ocean-900 flex items-center gap-1">
+                        <i data-lucide="map-pin" class="w-3.5 h-3.5 text-coral-500"></i>
+                        <span>Interlaken, Switzerland</span>
+                    </div>
+                    <div class="absolute top-4 right-4 bg-ocean-900/85 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-bold">
+                        From $1,650
+                    </div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-serif text-2xl font-bold text-ocean-900">Swiss Alpine Peaks</h3>
+                            <span class="flex items-center gap-1 text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded-lg">
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-500 text-amber-500"></i> 5.0
+                            </span>
+                        </div>
+                        <p class="text-ocean-800/75 text-sm leading-relaxed mb-5">
+                            Glacial turquoise lakes, scenic cogwheel railways, crisp mountain trails, and cozy timber chalets beneath dramatic granite peaks.
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-sand-100 flex items-center justify-between">
+                        <span class="text-xs font-medium text-ocean-700">Best: Jun – Sep</span>
+                        <button onclick="selectDestinationForBooking('Swiss Alps, Switzerland')" class="inline-flex items-center gap-1.5 text-sm font-bold text-ocean-900 hover:text-coral-500 transition-colors">
+                            <span>Book Destination</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Destination 4: Kyoto -->
+            <article data-category="heritage" class="destination-card card-zoom reveal group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl border border-sand-200/80 transition-all duration-300 flex flex-col">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=900&q=80" 
+                         onerror="this.src='https://placehold.co/800x600/0369a1/ffffff?text=Kyoto+Japan'"
+                         alt="Traditional wooden pagoda surrounded by autumn foliage in Kyoto" 
+                         class="w-full h-full object-cover">
+                    <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold text-ocean-900 flex items-center gap-1">
+                        <i data-lucide="map-pin" class="w-3.5 h-3.5 text-coral-500"></i>
+                        <span>Kyoto, Japan</span>
+                    </div>
+                    <div class="absolute top-4 right-4 bg-ocean-900/85 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-bold">
+                        From $1,420
+                    </div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-serif text-2xl font-bold text-ocean-900">Kyoto Heritage</h3>
+                            <span class="flex items-center gap-1 text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded-lg">
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-500 text-amber-500"></i> 4.9
+                            </span>
+                        </div>
+                        <p class="text-ocean-800/75 text-sm leading-relaxed mb-5">
+                            Serene bamboo groves, centuries-old Zen rock gardens, lantern-lit Gion alleys, and authentic matcha tea ceremonies.
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-sand-100 flex items-center justify-between">
+                        <span class="text-xs font-medium text-ocean-700">Best: Mar – May</span>
+                        <button onclick="selectDestinationForBooking('Kyoto, Japan')" class="inline-flex items-center gap-1.5 text-sm font-bold text-ocean-900 hover:text-coral-500 transition-colors">
+                            <span>Book Destination</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Destination 5: Maldives -->
+            <article data-category="coastal" class="destination-card card-zoom reveal group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl border border-sand-200/80 transition-all duration-300 flex flex-col">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=900&q=80" 
+                         onerror="this.src='https://placehold.co/800x600/0369a1/ffffff?text=Maldives+Atolls'"
+                         alt="Overwater wooden villas in crystal clear lagoon in Maldives" 
+                         class="w-full h-full object-cover">
+                    <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold text-ocean-900 flex items-center gap-1">
+                        <i data-lucide="map-pin" class="w-3.5 h-3.5 text-coral-500"></i>
+                        <span>Baa Atoll, Maldives</span>
+                    </div>
+                    <div class="absolute top-4 right-4 bg-ocean-900/85 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-bold">
+                        From $1,890
+                    </div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-serif text-2xl font-bold text-ocean-900">Maldives Atolls</h3>
+                            <span class="flex items-center gap-1 text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded-lg">
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-500 text-amber-500"></i> 5.0
+                            </span>
+                        </div>
+                        <p class="text-ocean-800/75 text-sm leading-relaxed mb-5">
+                            Private overwater bungalows suspended above bioluminescent lagoons, powder-soft coral sandbars, and world-class diving.
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-sand-100 flex items-center justify-between">
+                        <span class="text-xs font-medium text-ocean-700">Best: Nov – Apr</span>
+                        <button onclick="selectDestinationForBooking('Maldives Atolls')" class="inline-flex items-center gap-1.5 text-sm font-bold text-ocean-900 hover:text-coral-500 transition-colors">
+                            <span>Book Destination</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Destination 6: Cusco & Machu Picchu -->
+            <article data-category="heritage mountains" class="destination-card card-zoom reveal group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl border border-sand-200/80 transition-all duration-300 flex flex-col">
+                <div class="relative h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1587595431973-160d0d94add1?auto=format&fit=crop&w=900&q=80" 
+                         onerror="this.src='https://placehold.co/800x600/0369a1/ffffff?text=Machu+Picchu+Peru'"
+                         alt="Ancient Incan citadel of Machu Picchu surrounded by misty Andes mountains" 
+                         class="w-full h-full object-cover">
+                    <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold text-ocean-900 flex items-center gap-1">
+                        <i data-lucide="map-pin" class="w-3.5 h-3.5 text-coral-500"></i>
+                        <span>Cusco Region, Peru</span>
+                    </div>
+                    <div class="absolute top-4 right-4 bg-ocean-900/85 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-bold">
+                        From $1,340
+                    </div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-serif text-2xl font-bold text-ocean-900">Andean Citadel</h3>
+                            <span class="flex items-center gap-1 text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded-lg">
+                                <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-500 text-amber-500"></i> 4.8
+                            </span>
+                        </div>
+                        <p class="text-ocean-800/75 text-sm leading-relaxed mb-5">
+                            Mystical cloud-forest ridges, ancient Incan stone terraces, Sacred Valley artisan markets, and guided sunrise treks.
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-sand-100 flex items-center justify-between">
+                        <span class="text-xs font-medium text-ocean-700">Best: May – Oct</span>
+                        <button onclick="selectDestinationForBooking('Machu Picchu, Peru')" class="inline-flex items-center gap-1.5 text-sm font-bold text-ocean-900 hover:text-coral-500 transition-colors">
+                            <span>Book Destination</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <!-- ==================== 3. TRAVEL PACKAGES ==================== -->
+    <section id="packages" class="py-20 sm:py-28 px-4 sm:px-8 bg-sand-100 border-y border-sand-200/70">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-16 reveal">
+                <span class="text-xs font-bold uppercase tracking-[0.2em] text-ocean-700">Tailored Itineraries</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-ocean-900 mt-2">Curated Travel Packages</h2>
+                <p class="text-ocean-800/75 mt-4 text-base">
+                    Whether you seek a nimble coastal escape or an all-inclusive luxury odyssey, choose a tier designed around your comfort.
+                </p>
+            </div>
+
+            <!-- 3 Package Tiers -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+                
+                <!-- Tier 1: Budget Explorer -->
+                <div class="reveal bg-white rounded-3xl p-8 border border-sand-200 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3.5 py-1 rounded-full bg-ocean-50 text-ocean-700 text-xs font-bold uppercase tracking-wider">Budget Explorer</span>
+                            <span class="text-xs font-semibold text-ocean-800/60 flex items-center gap-1">
+                                <i data-lucide="clock" class="w-3.5 h-3.5"></i> 4 Days / 3 Nights
+                            </span>
+                        </div>
+                        <div class="mb-6">
+                            <span class="font-serif text-4xl sm:text-5xl font-bold text-ocean-900">$699</span>
+                            <span class="text-sm text-ocean-800/60"> / per person</span>
+                        </div>
+                        <p class="text-sm text-ocean-800/75 mb-6 pb-6 border-b border-sand-100">
+                            Ideal for solo adventurers and nimble travelers looking for authentic local stays and essential guided highlights.
+                        </p>
+                        <ul class="space-y-3.5 text-sm text-ocean-900 mb-8">
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-ocean-700 shrink-0 mt-0.5"></i>
+                                <span><strong>Accommodation:</strong> Boutique 3-Star Eco-Lodges & Coastal Hostels</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-ocean-700 shrink-0 mt-0.5"></i>
+                                <span><strong>Meals:</strong> Daily Artisanal Breakfast Included</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-ocean-700 shrink-0 mt-0.5"></i>
+                                <span><strong>Transport:</strong> Shared Airport Transfers & Local Rail Pass</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-ocean-700 shrink-0 mt-0.5"></i>
+                                <span><strong>Activities:</strong> 2 Group Walking & Sightseeing Tours</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <button onclick="selectPackageForBooking('Budget Explorer ($699 - 4 Days)')" class="w-full py-3.5 px-6 rounded-xl border-2 border-ocean-900 text-ocean-900 font-bold hover:bg-ocean-900 hover:text-white transition-colors">
+                        Select Budget Package
+                    </button>
+                </div>
+
+                <!-- Tier 2: Standard Voyager (Featured) -->
+                <div class="reveal bg-ocean-900 text-white rounded-3xl p-8 border-2 border-ocean-800 shadow-2xl lg:-translate-y-3 flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-coral-500 text-white text-[11px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-bl-2xl">
+                        Most Popular
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-4 mt-2">
+                            <span class="px-3.5 py-1 rounded-full bg-white/15 text-sand-100 text-xs font-bold uppercase tracking-wider">Standard Voyager</span>
+                            <span class="text-xs font-semibold text-sand-200 flex items-center gap-1">
+                                <i data-lucide="clock" class="w-3.5 h-3.5"></i> 7 Days / 6 Nights
+                            </span>
+                        </div>
+                        <div class="mb-6">
+                            <span class="font-serif text-4xl sm:text-5xl font-bold text-white">$1,390</span>
+                            <span class="text-sm text-sand-200"> / per person</span>
+                        </div>
+                        <p class="text-sm text-sand-100/80 mb-6 pb-6 border-b border-white/15">
+                            Our signature balanced itinerary combining scenic beachfront resorts, curated excursions, and culinary tastings.
+                        </p>
+                        <ul class="space-y-3.5 text-sm text-sand-50 mb-8">
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-coral-500 shrink-0 mt-0.5"></i>
+                                <span><strong>Accommodation:</strong> 4-Star Oceanview Resorts & Heritage Hotels</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-coral-500 shrink-0 mt-0.5"></i>
+                                <span><strong>Meals:</strong> Daily Breakfast + 3 Signature Local Dinners</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-coral-500 shrink-0 mt-0.5"></i>
+                                <span><strong>Transport:</strong> Private Chauffeur Airport Pickup & Inter-city SUV</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-coral-500 shrink-0 mt-0.5"></i>
+                                <span><strong>Activities:</strong> Sunset Boat Cruise, Guided Trekking & Cultural Pass</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-coral-500 shrink-0 mt-0.5"></i>
+                                <span><strong>Support:</strong> Dedicated Bilingual Local Trip Concierge</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <button onclick="selectPackageForBooking('Standard Voyager ($1,390 - 7 Days)')" class="w-full py-4 px-6 rounded-xl bg-coral-500 hover:bg-coral-600 text-white font-bold shadow-lg shadow-coral-500/30 transition-all">
+                        Select Standard Package
+                    </button>
+                </div>
+
+                <!-- Tier 3: Premium Odyssey -->
+                <div class="reveal bg-white rounded-3xl p-8 border border-sand-200 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3.5 py-1 rounded-full bg-sand-200 text-sand-700 text-xs font-bold uppercase tracking-wider">Premium Luxury</span>
+                            <span class="text-xs font-semibold text-ocean-800/60 flex items-center gap-1">
+                                <i data-lucide="clock" class="w-3.5 h-3.5"></i> 10 Days / 9 Nights
+                            </span>
+                        </div>
+                        <div class="mb-6">
+                            <span class="font-serif text-4xl sm:text-5xl font-bold text-ocean-900">$2,750</span>
+                            <span class="text-sm text-ocean-800/60"> / per person</span>
+                        </div>
+                        <p class="text-sm text-ocean-800/75 mb-6 pb-6 border-b border-sand-100">
+                            Unrivaled privacy and indulgence featuring 5-star overwater or cliffside suites, private yachts, and bespoke dining.
+                        </p>
+                        <ul class="space-y-3.5 text-sm text-ocean-900 mb-8">
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-sand-700 shrink-0 mt-0.5"></i>
+                                <span><strong>Accommodation:</strong> 5-Star Luxury Suites & Private Pool Villas</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-sand-700 shrink-0 mt-0.5"></i>
+                                <span><strong>Meals:</strong> All-Inclusive Gourmet Dining & Private Beach Dinner</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-sand-700 shrink-0 mt-0.5"></i>
+                                <span><strong>Transport:</strong> VIP Lounge Fast-Track, Luxury Sedan & Speedboat</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-sand-700 shrink-0 mt-0.5"></i>
+                                <span><strong>Activities:</strong> Private Yacht Charter, Spa Rituals & Helicopter Tour</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <button onclick="selectPackageForBooking('Premium Luxury ($2,750 - 10 Days)')" class="w-full py-3.5 px-6 rounded-xl border-2 border-ocean-900 text-ocean-900 font-bold hover:bg-ocean-900 hover:text-white transition-colors">
+                        Select Premium Package
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 4. ACTIVITIES & EXPERIENCES ==================== -->
+    <section id="activities" class="py-20 sm:py-28 px-4 sm:px-8 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-4 reveal">
+            <div>
+                <span class="text-xs font-bold uppercase tracking-[0.2em] text-ocean-700">Immersive Moments</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-ocean-900 mt-2">Activities & Experiences</h2>
+            </div>
+            <p class="max-w-md text-sm text-ocean-800/75">
+                Go beyond sightseeing with hands-on adventures led by certified local naturalists, sailors, and cultural historians.
+            </p>
+        </div>
+
+        <!-- 6 Activity Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <!-- 1. Trekking -->
+            <div class="reveal card-zoom group relative h-80 rounded-3xl overflow-hidden shadow-md">
+                <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=800&q=80" 
+                     onerror="this.src='https://placehold.co/600x600/0a2540/ffffff?text=Alpine+Trekking'"
+                     alt="Hikers trekking along a scenic mountain ridge at sunrise" 
+                     class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-ocean-950/90 via-ocean-950/35 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                    <div class="w-10 h-10 rounded-xl bg-white/15 backdrop-blur-md flex items-center justify-center mb-3">
+                        <i data-lucide="mountain" class="w-5 h-5 text-sand-200"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold mb-1">High-Altitude Trekking</h3>
+                    <p class="text-xs text-sand-100/85 leading-relaxed">
+                        Traverse panoramic ridgelines and cloud-forest trails with seasoned alpine guides and full safety gear.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 2. Boating & Sailing -->
+            <div class="reveal card-zoom group relative h-80 rounded-3xl overflow-hidden shadow-md">
+                <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80" 
+                     onerror="this.src='https://placehold.co/600x600/0a2540/ffffff?text=Catamaran+Sailing'"
+                     alt="Sailboat cruising across clear turquoise coastal waters" 
+                     class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-ocean-950/90 via-ocean-950/35 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                    <div class="w-10 h-10 rounded-xl bg-white/15 backdrop-blur-md flex items-center justify-center mb-3">
+                        <i data-lucide="sail-boat" class="w-5 h-5 text-sand-200"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold mb-1">Private Boating & Sailing</h3>
+                    <p class="text-xs text-sand-100/85 leading-relaxed">
+                        Glide across hidden lagoons on traditional wooden dhows or modern catamarans into golden sunset horizons.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 3. Stargazing Camping -->
+            <div class="reveal card-zoom group relative h-80 rounded-3xl overflow-hidden shadow-md">
+                <img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=800&q=80" 
+                     onerror="this.src='https://placehold.co/600x600/0a2540/ffffff?text=Wilderness+Camping'"
+                     alt="Illuminated luxury tent under a starry night sky" 
+                     class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-ocean-950/90 via-ocean-950/35 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                    <div class="w-10 h-10 rounded-xl bg-white/15 backdrop-blur-md flex items-center justify-center mb-3">
+                        <i data-lucide="tent" class="w-5 h-5 text-sand-200"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold mb-1">Wilderness Glamping</h3>
+                    <p class="text-xs text-sand-100/85 leading-relaxed">
+                        Fall asleep under unpolluted Milky Way skies in luxury canvas camps complete with fireside dining.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 4. Adventure Water Sports -->
+            <div class="reveal card-zoom group relative h-80 rounded-3xl overflow-hidden shadow-md">
+                <img src="https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?auto=format&fit=crop&w=800&q=80" 
+                     onerror="this.src='https://placehold.co/600x600/0a2540/ffffff?text=Coral+Diving'"
+                     alt="Scuba diver exploring vibrant coral reefs underwater" 
+                     class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-ocean-950/90 via-ocean-950/35 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                    <div class="w-10 h-10 rounded-xl bg-white/15 backdrop-blur-md flex items-center justify-center mb-3">
+                        <i data-lucide="waves" class="w-5 h-5 text-sand-200"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold mb-1">Diving & Adventure Sports</h3>
+                    <p class="text-xs text-sand-100/85 leading-relaxed">
+                        PADI-certified reef dives, sea kayaking through limestone caves, and tandem coastal paragliding.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 5. Guided Sightseeing -->
+            <div class="reveal card-zoom group relative h-80 rounded-3xl overflow-hidden shadow-md">
+                <img src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?auto=format&fit=crop&w=800&q=80" 
+                     onerror="this.src='https://placehold.co/600x600/0a2540/ffffff?text=Scenic+Sightseeing'"
+                     alt="Traveler overlooking a historic Mediterranean coastal town" 
+                     class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-ocean-950/90 via-ocean-950/35 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                    <div class="w-10 h-10 rounded-xl bg-white/15 backdrop-blur-md flex items-center justify-center mb-3">
+                        <i data-lucide="camera" class="w-5 h-5 text-sand-200"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold mb-1">Architectural Sightseeing</h3>
+                    <p class="text-xs text-sand-100/85 leading-relaxed">
+                        Skip-the-line access to UNESCO monuments, hidden coastal viewpoints, and historic old quarters.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 6. Cultural Immersion -->
+            <div class="reveal card-zoom group relative h-80 rounded-3xl overflow-hidden shadow-md">
+                <img src="https://images.unsplash.com/photo-1528164344705-47542687000d?auto=format&fit=crop&w=800&q=80" 
+                     onerror="this.src='https://placehold.co/600x600/0a2540/ffffff?text=Cultural+Immersion'"
+                     alt="Traditional lantern-lit cultural street ceremony" 
+                     class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-ocean-950/90 via-ocean-950/35 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                    <div class="w-10 h-10 rounded-xl bg-white/15 backdrop-blur-md flex items-center justify-center mb-3">
+                        <i data-lucide="landmark" class="w-5 h-5 text-sand-200"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold mb-1">Cultural & Culinary Arts</h3>
+                    <p class="text-xs text-sand-100/85 leading-relaxed">
+                        Intimate cooking classes with local families, pottery workshops, and sacred festival access.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ==================== 5. WHY CHOOSE US ==================== -->
+    <section id="why-us" class="py-20 sm:py-28 px-4 sm:px-8 bg-ocean-900 text-white relative overflow-hidden">
+        <!-- Decorative subtle background circle -->
+        <div class="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-ocean-700/20 blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-coral-500/10 blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="text-center max-w-2xl mx-auto mb-16 reveal">
+                <span class="text-xs font-bold uppercase tracking-[0.2em] text-coral-500">The Aetheris Standard</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mt-2">Why Travel With Us</h2>
+                <p class="text-sand-200/80 mt-4 text-base">
+                    Every detail is vetted by our global travel architects so your only responsibility is being present in the moment.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Feature 1 -->
+                <div class="reveal bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-7 hover:bg-white/10 transition-all">
+                    <div class="w-12 h-12 rounded-2xl bg-coral-500/20 text-coral-500 flex items-center justify-center mb-5">
+                        <i data-lucide="badge-dollar-sign" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-white mb-2">Transparent & Affordable</h3>
+                    <p class="text-sm text-sand-200/80 leading-relaxed">
+                        Direct partnerships with boutique properties ensure honest, all-inclusive pricing with zero hidden booking fees.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="reveal bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-7 hover:bg-white/10 transition-all">
+                    <div class="w-12 h-12 rounded-2xl bg-ocean-500/20 text-ocean-500 flex items-center justify-center mb-5">
+                        <i data-lucide="compass" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-white mb-2">Experienced Local Guides</h3>
+                    <p class="text-sm text-sand-200/80 leading-relaxed">
+                        Explore alongside certified native storytellers and naturalists who unlock hidden gems off the tourist map.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="reveal bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-7 hover:bg-white/10 transition-all">
+                    <div class="w-12 h-12 rounded-2xl bg-sand-500/20 text-sand-300 flex items-center justify-center mb-5">
+                        <i data-lucide="bed-double" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-white mb-2">Handpicked Comfort Stays</h3>
+                    <p class="text-sm text-sand-200/80 leading-relaxed">
+                        Every hotel, villa, and eco-lodge is personally inspected for character, cleanliness, and coastal or scenic views.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="reveal bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-7 hover:bg-white/10 transition-all">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-5">
+                        <i data-lucide="shield-check" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-white mb-2">100% Safe & Protected</h3>
+                    <p class="text-sm text-sand-200/80 leading-relaxed">
+                        Comprehensive trip protection, vetted private chauffeurs, and 24/7 on-ground emergency concierge support.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 6. BOOKING SECTION ==================== -->
+    <section id="booking" class="py-20 sm:py-28 px-4 sm:px-8 max-w-7xl mx-auto">
+        <div class="bg-white rounded-[2.5rem] shadow-xl border border-sand-200 overflow-hidden grid grid-cols-1 lg:grid-cols-12 reveal">
+            
+            <!-- Left Visual & Concierge Info Column -->
+            <div class="lg:col-span-5 bg-sand-100 p-8 sm:p-12 flex flex-col justify-between relative">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-[0.2em] text-ocean-700">Reserve Your Journey</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-ocean-900 mt-2 mb-4">Start Planning Your Escape</h2>
+                    <p class="text-sm text-ocean-800/80 leading-relaxed mb-8">
+                        Complete your reservation request below. One of our dedicated destination specialists will confirm availability and send a customized itinerary within 2 hours.
+                    </p>
+
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3.5 bg-white p-4 rounded-2xl border border-sand-200/80">
+                            <div class="w-10 h-10 rounded-xl bg-ocean-50 text-ocean-700 flex items-center justify-center shrink-0">
+                                <i data-lucide="calendar-check" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-ocean-900">Flexible Rescheduling</h4>
+                                <p class="text-xs text-ocean-800/70">Free date changes up to 14 days prior</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3.5 bg-white p-4 rounded-2xl border border-sand-200/80">
+                            <div class="w-10 h-10 rounded-xl bg-ocean-50 text-ocean-700 flex items-center justify-center shrink-0">
+                                <i data-lucide="lock" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-ocean-900">No Immediate Charge</h4>
+                                <p class="text-xs text-ocean-800/70">Lock in seasonal rates before payment</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-10 pt-6 border-t border-sand-200">
+                    <p class="text-xs font-semibold uppercase tracking-wider text-ocean-800/60">Need Instant Assistance?</p>
+                    <p class="font-serif text-xl font-bold text-ocean-900 mt-1">+1 (800) 555-0194</p>
+                </div>
+            </div>
+
+            <!-- Right Interactive Booking Form Column -->
+            <div class="lg:col-span-7 p-8 sm:p-12">
+                <form id="booking-form" novalidate class="space-y-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <!-- Full Name -->
+                        <div>
+                            <label for="fullName" class="block text-xs font-bold uppercase tracking-wider text-ocean-900 mb-2">Full Name *</label>
+                            <input type="text" id="fullName" name="fullName" placeholder="e.g., Elena Vance" 
+                                   class="w-full px-4 py-3 rounded-xl bg-sand-50 border border-sand-300 text-ocean-900 text-sm focus:outline-none focus:border-ocean-700 focus:ring-2 focus:ring-ocean-700/15 transition-all">
+                            <p id="error-fullName" class="hidden text-xs text-red-600 mt-1.5 font-medium"></p>
+                        </div>
+
+                        <!-- Email Address -->
+                        <div>
+                            <label for="email" class="block text-xs font-bold uppercase tracking-wider text-ocean-900 mb-2">Email Address *</label>
+                            <input type="email" id="email" name="email" placeholder="elena@example.com" 
+                                   class="w-full px-4 py-3 rounded-xl bg-sand-50 border border-sand-300 text-ocean-900 text-sm focus:outline-none focus:border-ocean-700 focus:ring-2 focus:ring-ocean-700/15 transition-all">
+                            <p id="error-email" class="hidden text-xs text-red-600 mt-1.5 font-medium"></p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <!-- Phone Number -->
+                        <div>
+                            <label for="phone" class="block text-xs font-bold uppercase tracking-wider text-ocean-900 mb-2">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+1 (555) 234-5678" 
+                                   class="w-full px-4 py-3 rounded-xl bg-sand-50 border border-sand-300 text-ocean-900 text-sm focus:outline-none focus:border-ocean-700 focus:ring-2 focus:ring-ocean-700/15 transition-all">
+                            <p id="error-phone" class="hidden text-xs text-red-600 mt-1.5 font-medium"></p>
+                        </div>
+
+                        <!-- Destination Selection -->
+                        <div>
+                            <label for="destination" class="block text-xs font-bold uppercase tracking-wider text-ocean-900 mb-2">Destination *</label>
+                            <select id="destination" name="destination" 
+                                    class="w-full px-4 py-3 rounded-xl bg-sand-50 border border-sand-300 text-ocean-900 text-sm focus:outline-none focus:border-ocean-700 focus:ring-2 focus:ring-ocean-700/15 transition-all">
+                                <option value="">Choose a destination...</option>
+                                <option value="Santorini, Greece">Santorini, Greece</option>
+                                <option value="Bali, Indonesia">Bali, Indonesia</option>
+                                <option value="Swiss Alps, Switzerland">Swiss Alps, Switzerland</option>
+                                <option value="Kyoto, Japan">Kyoto, Japan</option>
+                                <option value="Maldives Atolls">Maldives Atolls</option>
+                                <option value="Machu Picchu, Peru">Machu Picchu, Peru</option>
+                            </select>
+                            <p id="error-destination" class="hidden text-xs text-red-600 mt-1.5 font-medium"></p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <!-- Travel Date -->
+                        <div>
+                            <label for="travelDate" class="block text-xs font-bold uppercase tracking-wider text-ocean-900 mb-2">Preferred Travel Date *</label>
+                            <input type="date" id="travelDate" name="travelDate" 
+                                   class="w-full px-4 py-3 rounded-xl bg-sand-50 border border-sand-300 text-ocean-900 text-sm focus:outline-none focus:border-ocean-700 focus:ring-2 focus:ring-ocean-700/15 transition-all">
+                            <p id="error-travelDate" class="hidden text-xs text-red-600 mt-1.5 font-medium"></p>
+                        </div>
+
+                        <!-- Number of Travelers -->
+                        <div>
+                            <label for="travelers" class="block text-xs font-bold uppercase tracking-wider text-ocean-900 mb-2">Number of Travelers *</label>
+                            <input type="number" id="travelers" name="travelers" min="1" max="20" value="2" 
+                                   class="w-full px-4 py-3 rounded-xl bg-sand-50 border border-sand-300 text-ocean-900 text-sm focus:outline-none focus:border-ocean-700 focus:ring-2 focus:ring-ocean-700/15 transition-all">
+                            <p id="error-travelers" class="hidden text-xs text-red-600 mt-1.5 font-medium"></p>
+                        </div>
+                    </div>
+
+                    <!-- Package Selection -->
+                    <div>
+                        <label for="packageSelect" class="block text-xs font-bold uppercase tracking-wider text-ocean-900 mb-2">Travel Package Tier *</label>
+                        <select id="packageSelect" name="packageSelect" 
+                                class="w-full px-4 py-3 rounded-xl bg-sand-50 border border-sand-300 text-ocean-900 text-sm focus:outline-none focus:border-ocean-700 focus:ring-2 focus:ring-ocean-700/15 transition-all">
+                            <option value="">Select your preferred tier...</option>
+                            <option value="Budget Explorer ($699 - 4 Days)">Budget Explorer — $699 / person (4 Days)</option>
+                            <option value="Standard Voyager ($1,390 - 7 Days)">Standard Voyager — $1,390 / person (7 Days)</option>
+                            <option value="Premium Luxury ($2,750 - 10 Days)">Premium Luxury — $2,750 / person (10 Days)</option>
+                        </select>
+                        <p id="error-packageSelect" class="hidden text-xs text-red-600 mt-1.5 font-medium"></p>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="pt-2">
+                        <button type="submit" class="w-full py-4 px-8 rounded-xl bg-ocean-900 hover:bg-ocean-800 text-white font-bold text-base shadow-lg shadow-ocean-900/20 transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                            <span>Book Now</span>
+                            <i data-lucide="send" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 7. CONTACT & FOOTER SECTION ==================== -->
+    <footer id="contact" class="bg-ocean-950 text-sand-100 pt-20 pb-10 px-4 sm:px-8 border-t border-ocean-900">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-16 border-b border-white/10">
+                
+                <!-- Brand & Bio -->
+                <div class="space-y-4">
+                    <a href="#home" class="flex items-center gap-2.5">
+                        <div class="w-10 h-10 rounded-xl bg-coral-500 flex items-center justify-center text-white">
+                            <i data-lucide="compass" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <span class="font-serif text-2xl font-bold tracking-tight text-white">Aetheris</span>
+                            <span class="block text-[10px] uppercase tracking-[0.25em] text-sand-300 font-medium -mt-1">Voyages</span>
+                        </div>
+                    </a>
+                    <p class="text-sm text-sand-200/75 leading-relaxed">
+                        Crafting bespoke coastal retreats, alpine expeditions, and cultural journeys for discerning travelers across the globe.
+                    </p>
+                    <!-- Social Media Links -->
+                    <div class="flex items-center gap-3 pt-2">
+                        <a href="#contact" aria-label="Instagram" class="w-9 h-9 rounded-full bg-white/10 hover:bg-coral-500 flex items-center justify-center text-white transition-colors">
+                            <i data-lucide="instagram" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#contact" aria-label="Facebook" class="w-9 h-9 rounded-full bg-white/10 hover:bg-coral-500 flex items-center justify-center text-white transition-colors">
+                            <i data-lucide="facebook" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#contact" aria-label="Twitter" class="w-9 h-9 rounded-full bg-white/10 hover:bg-coral-500 flex items-center justify-center text-white transition-colors">
+                            <i data-lucide="twitter" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#contact" aria-label="YouTube" class="w-9 h-9 rounded-full bg-white/10 hover:bg-coral-500 flex items-center justify-center text-white transition-colors">
+                            <i data-lucide="youtube" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Navigation -->
+                <div>
+                    <h4 class="font-serif text-lg font-bold text-white mb-5">Explore</h4>
+                    <ul class="space-y-3 text-sm text-sand-200/80">
+                        <li><a href="#home" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="#destinations" class="hover:text-white transition-colors">Popular Destinations</a></li>
+                        <li><a href="#packages" class="hover:text-white transition-colors">Travel Packages</a></li>
+                        <li><a href="#activities" class="hover:text-white transition-colors">Activities & Experiences</a></li>
+                        <li><a href="#why-us" class="hover:text-white transition-colors">Why Choose Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Top Destinations -->
+                <div>
+                    <h4 class="font-serif text-lg font-bold text-white mb-5">Top Destinations</h4>
+                    <ul class="space-y-3 text-sm text-sand-200/80">
+                        <li><a href="#destinations" class="hover:text-white transition-colors">Santorini, Greece</a></li>
+                        <li><a href="#destinations" class="hover:text-white transition-colors">Ubud & Uluwatu, Bali</a></li>
+                        <li><a href="#destinations" class="hover:text-white transition-colors">Interlaken, Swiss Alps</a></li>
+                        <li><a href="#destinations" class="hover:text-white transition-colors">Kyoto, Japan</a></li>
+                        <li><a href="#destinations" class="hover:text-white transition-colors">Baa Atoll, Maldives</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Information -->
+                <div>
+                    <h4 class="font-serif text-lg font-bold text-white mb-5">Contact Us</h4>
+                    <ul class="space-y-4 text-sm text-sand-200/80">
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-coral-500 shrink-0 mt-0.5"></i>
+                            <span>742 Harborview Promenade, Suite 400, San Francisco, CA 94111</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="phone" class="w-5 h-5 text-coral-500 shrink-0"></i>
+                            <span>+1 (800) 555-0194</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="mail" class="w-5 h-5 text-coral-500 shrink-0"></i>
+                            <span>concierge@aetherisvoyages.com</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="clock" class="w-5 h-5 text-coral-500 shrink-0"></i>
+                            <span>Mon – Sun: 24/7 Global Support</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Copyright Bar -->
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-sand-200/60 gap-4">
+                <p>&copy; 2026 Aetheris Voyages International. All rights reserved.</p>
+                <div class="flex items-center gap-6">
+                    <a href="#contact" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#contact" class="hover:text-white transition-colors">Terms of Service</a>
+                    <a href="#contact" class="hover:text-white transition-colors">Travel Insurance</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== BOOKING CONFIRMATION MODAL ==================== -->
+    <div id="confirmation-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-ocean-950/75 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl border border-sand-200 text-center transform transition-all">
+            <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-5">
+                <i data-lucide="check-circle-2" class="w-9 h-9"></i>
+            </div>
+            <h3 class="font-serif text-2xl sm:text-3xl font-bold text-ocean-900 mb-2">Reservation Received!</h3>
+            <p class="text-sm text-ocean-800/75 mb-6">
+                Thank you, <span id="modal-guest-name" class="font-bold text-ocean-900">Traveler</span>. Your itinerary request has been assigned to a senior travel advisor.
+            </p>
+            
+            <div class="bg-sand-100 rounded-2xl p-4 text-left text-xs space-y-2.5 mb-6 border border-sand-200">
+                <div class="flex justify-between">
+                    <span class="text-ocean-800/65">Destination:</span>
+                    <span id="modal-destination" class="font-bold text-ocean-900">-</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-ocean-800/65">Package Tier:</span>
+                    <span id="modal-package" class="font-bold text-ocean-900">-</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-ocean-800/65">Travel Date:</span>
+                    <span id="modal-date" class="font-bold text-ocean-900">-</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-ocean-800/65">Party Size:</span>
+                    <span id="modal-travelers" class="font-bold text-ocean-900">-</span>
+                </div>
+            </div>
+
+            <button id="close-modal-btn" class="w-full py-3.5 px-6 rounded-xl bg-ocean-900 hover:bg-ocean-800 text-white font-bold text-sm transition-colors">
+                Done & Return to Site
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+    <script>
+        // 1. Initialize Lucide Icons
+        lucide.createIcons();
+
+        // 2. Sticky Glassmorphism Navbar on Scroll
+        const navbar = document.getElementById('navbar');
+        const logoText = document.getElementById('logo-text');
+        const logoSub = document.getElementById('logo-sub');
+        const logoIconBox = document.getElementById('logo-icon-box');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 60) {
+                navbar.classList.add('bg-white/95', 'backdrop-blur-md', 'shadow-md', 'py-3');
+                navbar.classList.remove('py-4');
+                
+                logoText.classList.replace('text-white', 'text-ocean-900');
+                logoSub.classList.replace('text-sand-200', 'text-ocean-700');
+                logoIconBox.classList.remove('bg-white/15', 'border-white/25', 'text-white');
+                logoIconBox.classList.add('bg-ocean-900', 'text-white');
+
+                navLinks.forEach(link => {
+                    link.classList.remove('text-white/90', 'hover:text-white');
+                    link.classList.add('text-ocean-900', 'hover:text-coral-500');
+                });
+
+                mobileMenuBtn.classList.remove('bg-white/15', 'text-white', 'border-white/20');
+                mobileMenuBtn.classList.add('bg-sand-100', 'text-ocean-900', 'border-sand-200');
+            } else {
+                navbar.classList.remove('bg-white/95', 'backdrop-blur-md', 'shadow-md', 'py-3');
+                navbar.classList.add('py-4');
+
+                logoText.classList.replace('text-ocean-900', 'text-white');
+                logoSub.classList.replace('text-ocean-700', 'text-sand-200');
+                logoIconBox.classList.add('bg-white/15', 'border-white/25', 'text-white');
+                logoIconBox.classList.remove('bg-ocean-900');
+
+                navLinks.forEach(link => {
+                    link.classList.add('text-white/90', 'hover:text-white');
+                    link.classList.remove('text-ocean-900', 'hover:text-coral-500');
+                });
+
+                mobileMenuBtn.classList.add('bg-white/15', 'text-white', 'border-white/20');
+                mobileMenuBtn.classList.remove('bg-sand-100', 'text-ocean-900', 'border-sand-200');
+            }
+        });
+
+        // 3. Mobile Menu Toggle
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // 4. Destination Category Filter
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const destinationCards = document.querySelectorAll('.destination-card');
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button styling
+                filterButtons.forEach(b => {
+                    b.classList.remove('bg-ocean-900', 'text-white');
+                    b.classList.add('bg-sand-100', 'text-ocean-800');
+                });
+                btn.classList.remove('bg-sand-100', 'text-ocean-800');
+                btn.classList.add('bg-ocean-900', 'text-white');
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                destinationCards.forEach(card => {
+                    const categories = card.getAttribute('data-category');
+                    if (filterValue === 'all' || categories.includes(filterValue)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // 5. Helper Functions: Pre-fill Booking Form from Destination or Package Cards
+        function selectDestinationForBooking(destinationName) {
+            const destSelect = document.getElementById('destination');
+            destSelect.value = destinationName;
+            document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+            destSelect.focus();
+        }
+
+        function selectPackageForBooking(packageName) {
+            const pkgSelect = document.getElementById('packageSelect');
+            pkgSelect.value = packageName;
+            document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+            pkgSelect.focus();
+        }
+
+        // 6. Set Minimum Travel Date to Today
+        const travelDateInput = document.getElementById('travelDate');
+        const todayISO = new Date().toISOString().split('T')[0];
+        travelDateInput.setAttribute('min', todayISO);
+
+        // 7. Booking Form Validation & Submission
+        const bookingForm = document.getElementById('booking-form');
+        const confirmationModal = document.getElementById('confirmation-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        function showError(fieldId, message) {
+            const input = document.getElementById(fieldId);
+            const errorEl = document.getElementById(`error-${fieldId}`);
+            input.classList.add('border-red-500', 'bg-red-50/40');
+            input.classList.remove('border-sand-300');
+            errorEl.textContent = message;
+            errorEl.classList.remove('hidden');
+        }
+
+        function clearError(fieldId) {
+            const input = document.getElementById(fieldId);
+            const errorEl = document.getElementById(`error-${fieldId}`);
+            input.classList.remove('border-red-500', 'bg-red-50/40');
+            input.classList.add('border-sand-300');
+            errorEl.textContent = '';
+            errorEl.classList.add('hidden');
+        }
+
+        // Real-time error clearing on input
+        ['fullName', 'email', 'phone', 'destination', 'travelDate', 'travelers', 'packageSelect'].forEach(id => {
+            const el = document.getElementById(id);
+            el.addEventListener('input', () => clearError(id));
+            el.addEventListener('change', () => clearError(id));
+        });
+
+        bookingForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let isValid = true;
+
+            const fullName = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const destination = document.getElementById('destination').value;
+            const travelDate = document.getElementById('travelDate').value;
+            const travelers = parseInt(document.getElementById('travelers').value, 10);
+            const packageSelect = document.getElementById('packageSelect').value;
+
+            // Validate Full Name
+            if (fullName.length < 2) {
+                showError('fullName', 'Please enter your full name (at least 2 characters).');
+                isValid = false;
+            }
+
+            // Validate Email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showError('email', 'Please enter a valid email address.');
+                isValid = false;
+            }
+
+            // Validate Phone Number
+            const phoneDigits = phone.replace(/\D/g, '');
+            if (phoneDigits.length < 7) {
+                showError('phone', 'Please enter a valid phone number (minimum 7 digits).');
+                isValid = false;
+            }
+
+            // Validate Destination
+            if (!destination) {
+                showError('destination', 'Please select a travel destination.');
+                isValid = false;
+            }
+
+            // Validate Travel Date
+            if (!travelDate) {
+                showError('travelDate', 'Please select your preferred departure date.');
+                isValid = false;
+            } else if (travelDate < todayISO) {
+                showError('travelDate', 'Travel date cannot be in the past.');
+                isValid = false;
+            }
+
+            // Validate Number of Travelers
+            if (isNaN(travelers) || travelers < 1 || travelers > 20) {
+                showError('travelers', 'Please enter between 1 and 20 travelers.');
+                isValid = false;
+            }
+
+            // Validate Package Selection
+            if (!packageSelect) {
+                showError('packageSelect', 'Please choose a travel package tier.');
+                isValid = false;
+            }
+
+            if (isValid) {
+                // Populate Modal Summary
+                document.getElementById('modal-guest-name').textContent = fullName;
+                document.getElementById('modal-destination').textContent = destination;
+                document.getElementById('modal-package').textContent = packageSelect;
+                document.getElementById('modal-date').textContent = travelDate;
+                document.getElementById('modal-travelers').textContent = `${travelers} ${travelers === 1 ? 'Guest' : 'Guests'}`;
+
+                // Show Modal
+                confirmationModal.classList.remove('hidden');
+                confirmationModal.classList.add('flex');
+
+                // Reset Form
+                bookingForm.reset();
+            }
+        });
+
+        // Close Modal Handlers
+        closeModalBtn.addEventListener('click', () => {
+            confirmationModal.classList.add('hidden');
+            confirmationModal.classList.remove('flex');
+        });
+
+        confirmationModal.addEventListener('click', (e) => {
+            if (e.target === confirmationModal) {
+                confirmationModal.classList.add('hidden');
+                confirmationModal.classList.remove('flex');
+            }
+        });
+
+        // 8. Scroll Reveal Intersection Observer
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+    </script>
+</body>
+</html>
